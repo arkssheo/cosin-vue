@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import { store } from './store/store'
 import axios from 'axios'
+import vuelidate from 'vuelidate'
 
+Vue.use(vuelidate)
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'https://vuejs-axios-jsm.firebaseio.com'
 

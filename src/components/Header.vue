@@ -42,18 +42,13 @@
 
 <script>
 export default {
-  // data () {
-  //   return {
-  //     showProfile: false
-  //   }
-  // },
   methods: {
     toggleProfileClick () {
       let visibility = !this.isProfileVisible
       this.$store.dispatch('setProfileDialogVisibility', visibility)
     },
     goToDashboard () {
-
+      this.$router.push('/user')
     },
     hideProfileDialog () {
       this.$store.dispatch('setProfileDialogVisibility', false)

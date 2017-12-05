@@ -24,58 +24,63 @@ const actions = {
         returnSecureToken: true
       })
       .then(res => {
-        console.log('post success')
+        // console.log('post success')
         context.commit('authUser', {
           localId: res.data.localId,
           idToken: res.data.idToken
         })
         const now = new Date()
         const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
+
         localStorage.setItem('localId', res.data.localId)
         localStorage.setItem('idToken', res.data.idToken)
         localStorage.setItem('expirationDate', expirationDate)
-        context.dispatch('setLogoutTimer', res.data.expiresIn)
 
+        context.dispatch('setLogoutTimer', res.data.expiresIn)
         context.dispatch('fetchUser', { email: authData.email })
         .then(res => {
-          console.log('fetchUser resolved')
+          // console.log('fetchUser resolved')
           resolve(res)
         }, err => {
-          console.log('fetchUser error', err)
+          // console.log('fetchUser error', err)
           reject(err)
         })
       })
       .catch(res => {
-        console.log('fetchUser error', res)
+        console.log(res)
         reject(res)
       })
     })
   },
 
   signup ({commit, dispatch}, userData) {
-    axiosAuth.post(`/signupNewUser?key=${API_KEY}`, {
-      email: userData.email,
-      password: userData.password,
-      returnSecureToken: true
-    })
-    .then(res => {
-      commit('authUser', {
-        localId: res.data.localId,
-        idToken: res.data.idToken
+    return new Promise((resolve, reject) => {
+      axiosAuth.post(`/signupNewUser?key=${API_KEY}`, {
+        email: userData.email,
+        password: userData.password,
+        returnSecureToken: true
       })
-      // save into local storage
-      const now = new Date()
-      const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
-      localStorage.setItem('localId', res.data.localId)
-      localStorage.setItem('idToken', res.data.idToken)
-      localStorage.setItem('expirationDate', expirationDate)
+      .then(res => {
+        // commit('authUser', {
+        //   localId: res.data.localId,
+        //   idToken: res.data.idToken
+        // })
+        // save into local storage
+        // const now = new Date()
+        // const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
+        // localStorage.setItem('localId', res.data.localId)
+        // localStorage.setItem('idToken', res.data.idToken)
+        // localStorage.setItem('expirationDate', expirationDate)
 
-      userData.id = res.data.localId
-      dispatch('storeUser', userData)
-      dispatch('setLogoutTimer', res.data.expiresIn)
-    })
-    .catch(res => {
-      console.error(res)
+        // userData.id = res.data.localId
+        // dispatch('storeUser', userData)
+        // dispatch('setLogoutTimer', res.data.expiresIn)
+        resolve(res)
+      })
+      .catch(res => {
+        console.error(res)
+        reject(new Error(res.message))
+      })
     })
   },
 
@@ -105,7 +110,7 @@ const actions = {
       const userId = localStorage.getItem('localId')
       dispatch('fetchUser', { localId: userId })
       .then(res => {
-        console.log('auto-login successful for user: ', res.email)
+        // console.log('auto-login successful for user: ', res.email)
         commit('authUser', {
           localId: userId,
           idToken: token

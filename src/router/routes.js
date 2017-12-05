@@ -15,7 +15,18 @@ export const routes = [
     beforeEnter (to, from, next) {
       if (userStore.state.user && userStore.state.user.role === USER_ADMIN_ROLE_STRING) {
         next()
-      } else if (!userStore.user) {
+      } else if (!userStore.state.user) {
+        next('/login')
+      }
+    }
+  },
+  { path: '/admin/newuser',
+    component: NewUser,
+    beforeEnter (to, from, next) {
+      if (userStore.state.user && userStore.state.user.role === USER_ADMIN_ROLE_STRING) {
+        next()
+      } else if (!userStore.state.user) {
+        console.log('failed auth')
         next('/login')
       }
     }
@@ -30,7 +41,7 @@ export const routes = [
       }
     }
   },
-  { path: '/user/new/:pwd', component: NewUser },
+  { path: '/admin/new/:pwd', component: NewUser },
   { path: '*', redirect: '/login' }
 
 ]

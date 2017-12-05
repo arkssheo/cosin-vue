@@ -38,7 +38,7 @@
 export default {
   methods: {
     createUser () {
-      this.$router.push('/user/new/mysecretpassword')
+      this.$router.push('/admin/newuser')
     }
   }
 }

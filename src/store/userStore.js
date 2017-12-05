@@ -24,7 +24,7 @@ const actions = {
   storeUser ({commit}, userData) {
     axios.post('/users.json', userData)
     .then(res => {
-      console.log(res)
+      return res
     })
     .catch(res => console.error(res))
   },
@@ -52,7 +52,7 @@ const actions = {
         }
 
         if (user) {
-          console.log('user found: ', user)
+          // console.log('user found: ', user)
           commit('setUser', user)
           resolve(user)
         } else {
