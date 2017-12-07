@@ -64,5 +64,6 @@ body {
 .router-view {
   position: absolute;
   top: 6rem;
+  width: 100%;
 }
 </style>
