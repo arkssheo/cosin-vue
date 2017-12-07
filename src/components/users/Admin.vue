@@ -3,7 +3,7 @@
   <div class="col-md-12">
     <h2 class="text-center">Panel de Control del Administrador</h2>
     <hr>
-    <div class="col-md-3 text-center btn btn-primary menu-icon">
+    <div class="col-md-3 text-center btn btn-primary menu-icon" @click="$router.push('/admin/finiquito')">
       <p><i class="fa fa-university" aria-hidden="true"></i></p>
       <p><strong>Cálculo de finiquito</strong></p>
       <p class="menu-description">Calcular la cantidad a liquidar basada en una serie de datos del empleado. Puede contener nueces.</p>

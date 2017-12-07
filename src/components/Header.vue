@@ -93,7 +93,7 @@ export default {
     box-shadow: 5px 5px 3px black;
     border-radius: .5rem;
     z-index: 20;
-    background-color: aliceblue;
+    background-color: rgba(230, 230, 255, 0.4);
   }
   .header-link {
     padding-top: 15px;
