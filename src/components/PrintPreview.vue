@@ -1,5 +1,6 @@
 <template>
   <div class="col-md-12">
+    <hr>
     <table class="table table-hover table-striped">
         <thead>
           <tr>
@@ -19,8 +20,8 @@
             <td> {{ htmlToPrint.f1[0] }}</td>
             <td>{{ htmlToPrint.days }}</td>
             <td>{{ htmlToPrint.f2[0] }} </td>
-            <td>{{ htmlToPrint.salary }}</td>
-            <td><strong>{{ htmlToPrint.t1[0] }}</strong></td>
+            <td>${{ htmlToPrint.salary }}</td>
+            <td><strong>${{ htmlToPrint.t1[0] }}</strong></td>
           </tr>
           <tr>
             <td>Aguinaldo</td>
@@ -28,8 +29,8 @@
             <td> {{ htmlToPrint.f1[1] }}</td>
             <td>{{ htmlToPrint.days }}</td>
             <td>{{ htmlToPrint.f2[1] }} </td>
-            <td>{{ htmlToPrint.salary }}</td>
-            <td><strong>{{ htmlToPrint.t1[1] }}</strong></td>
+            <td>${{ htmlToPrint.salary }}</td>
+            <td><strong>${{ htmlToPrint.t1[1] }}</strong></td>
           </tr>
           <tr>
             <td>Vacaciones</td>
@@ -37,8 +38,8 @@
             <td> {{ htmlToPrint.f1[2] }}</td>
             <td>{{ htmlToPrint.days }}</td>
             <td>{{ htmlToPrint.f2[2] }} </td>
-            <td>{{ htmlToPrint.salary }}</td>
-            <td><strong>{{ htmlToPrint.t1[2] }}</strong></td>
+            <td>${{ htmlToPrint.salary }}</td>
+            <td><strong>${{ htmlToPrint.t1[2] }}</strong></td>
           </tr>
           <tr>
             <td>Prima Vacacional</td>
@@ -47,7 +48,16 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><strong>{{ this.htmlToPrint.payPrima }}</strong></td>
+            <td><strong>${{ this.htmlToPrint.payPrima }}</strong></td>
+          </tr>
+          <tr>
+            <td>Total a pagar</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><strong>${{ this.htmlToPrint.total.toFixed(2) }}</strong></td>
           </tr>
         </tbody>
       </table>
@@ -63,7 +73,6 @@ export default {
   },
   created () {
     this.htmlToPrint = this.$store.getters.getHtmlToPrint
-    console.log('html to print: ', this.htmlToPrint)
   },
   mounted () {
     window.print()

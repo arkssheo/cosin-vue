@@ -58,8 +58,8 @@
             <td> {{ dailyFactors[0] }}</td>
             <td>{{ laborDays }}</td>
             <td>{{ totalFactors[0] }} </td>
-            <td>{{ dailySalary }}</td>
-            <td><strong>{{ totalPayment[0] }}</strong></td>
+            <td>${{ dailySalary }}</td>
+            <td><strong>${{ totalPayment[0] }}</strong></td>
           </tr>
           <tr>
             <td>Aguinaldo</td>
@@ -67,8 +67,8 @@
             <td> {{ dailyFactors[1] }}</td>
             <td>{{ laborDays }}</td>
             <td>{{ totalFactors[1] }} </td>
-            <td>{{ dailySalary }}</td>
-            <td><strong>{{ totalPayment[1] }}</strong></td>
+            <td>${{ dailySalary }}</td>
+            <td><strong>${{ totalPayment[1] }}</strong></td>
           </tr>
           <tr>
             <td>Vacaciones</td>
@@ -76,8 +76,8 @@
             <td> {{ dailyFactors[2] }}</td>
             <td>{{ laborDays }}</td>
             <td>{{ totalFactors[2] }} </td>
-            <td>{{ dailySalary }}</td>
-            <td><strong>{{ totalPayment[2] }}</strong></td>
+            <td>${{ dailySalary }}</td>
+            <td><strong>${{ totalPayment[2] }}</strong></td>
           </tr>
           <tr>
             <td>Prima Vacacional</td>
@@ -86,13 +86,17 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><strong>{{ primePayment }}</strong></td>
+            <td><strong>${{ primePayment }}</strong></td>
           </tr>
         </tbody>
       </table>
-      <p class="text-right grand-total">Total: {{ this.grandTotal }}</p>
+      <p class="text-right grand-total">A Pagar: ${{ this.grandTotal.toFixed(2) }}</p>
+      <div class="text-center">
+        <button class="btn btn-lg btn-primary btn-print" @click="onPrint()">Imprimir</button>
+      </div>
+      
     </div>
-    <button class="btn btn-default" @click="onPrint()">Print</button>
+    
   </div>
 </template>
 
@@ -235,6 +239,9 @@ table {
 .grand-total {
   width: 85%;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 3rem;
+}
+.btn-print {
+  margin-left: 6rem;
 }
 </style>
