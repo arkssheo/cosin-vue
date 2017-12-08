@@ -5,6 +5,7 @@ import NewUser from '@/components/users/NewUser.vue'
 import Admin from '@/components/admin/Admin.vue'
 import Finiquito from '@/components/users/CalcFiniquito.vue'
 import UserFiles from '@/components/users/UserFiles.vue'
+import PrintPreview from '@/components/PrintPreview.vue'
 
 import userStore from '../store/userStore'
 import { USER_ADMIN_ROLE_STRING } from '../constants/global'
@@ -62,6 +63,7 @@ export const routes = [
       }
     }
   },
+  { path: '/finiquito/printpreview', component: PrintPreview },
   { path: '/admin/new/:pwd', component: NewUser },
   { path: '*', redirect: '/login' }
 

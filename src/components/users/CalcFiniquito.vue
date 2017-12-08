@@ -92,7 +92,7 @@
       </table>
       <p class="text-right grand-total">Total: {{ this.grandTotal }}</p>
     </div>
-    
+    <button class="btn btn-default" @click="onPrint()">Print</button>
   </div>
 </template>
 
@@ -161,6 +161,22 @@ export default {
       this.grandTotal += Number(this.primePayment)
 
       console.log(this.dailyFactors, this.totalFactors, this.totalPayment, Number(this.primePayment), this.grandTotal)
+    },
+    onPrint () {
+      const table = {
+        f1: this.dailyFactors,
+        f2: this.totalFactors,
+        t1: this.totalPayment,
+        d1: this.lawDays,
+        salary: this.dailySalary,
+        days: this.laborDays,
+        total: this.grandTotal,
+        prima: this.vacationsPrime,
+        payPrima: this.primePayment
+      }
+      this.$store.dispatch('setHtmlToPrint', table)
+      console.log(table)
+      this.$router.push('/finiquito/printpreview')
     }
   },
   computed: {
