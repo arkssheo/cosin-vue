@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="col-md-8 col-md-offset-3 well">
+    <div class="col-md-8 col-md-offset-2 well">
       <h2 class="text-center">Ingresar al Sistema</h2>
       <br>
       <div class="alert alert-danger" role="alert" v-if="loginFailed">

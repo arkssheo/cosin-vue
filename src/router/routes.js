@@ -64,7 +64,7 @@ export const routes = [
     }
   },
   { path: '/finiquito/printpreview', component: PrintPreview },
-  { path: '/admin/new/:pwd', component: NewUser },
-  { path: '*', redirect: '/login' }
+  { path: '/admin/new/:pwd', component: NewUser }
+  // { path: '*', redirect: '/user' }
 
 ]
