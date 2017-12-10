@@ -9,7 +9,7 @@ import vuelidate from 'vuelidate'
 
 Vue.use(vuelidate)
 Vue.config.productionTip = false
-axios.defaults.baseURL = 'https://vuejs-axios-jsm.firebaseio.com'
+axios.defaults.baseURL = 'http://localhost:3000'
 
 /* eslint-disable no-new */
 new Vue({

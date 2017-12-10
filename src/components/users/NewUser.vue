@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <!-- {{ pwd }} : {{ role }} -->
-
     <div class="col-md-8 col-md-offset-4 back-btn">
       <router-link class="btn btn-link" tag="a" to="/admin"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back</router-link>
     </div>
@@ -57,7 +55,7 @@
         </div>
         <div class="form-group">
           <select name="roles" id="select" class="form-control" v-model="role">
-            <option v-for="role in roles" :key="role.id" :value="role.value">{{ role.value }}</option>
+            <option v-for="role in roles" :key="role.id" :value="role">{{ role.name }}</option>
           </select>
         </div>
         <div class="form-group text-right">
@@ -70,7 +68,7 @@
             :disabled="($v.email.$invalid || $v.password.$invalid) || isSubmitted"
             type="submit"
             @click.prevent="onSubmit()">
-            Ingresar
+            Agregar Usuario
           </button>
         </div>
       </form>
@@ -85,7 +83,7 @@ import { required, email, minLength } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
-      roles: [],
+      roles: null,
       firstName: '',
       lastName: '',
       email: '',
@@ -129,16 +127,18 @@ export default {
         lastName: this.lastName,
         email: this.email,
         password: this.password,
-        role: this.role
+        role: this.role.name,
+        isAdmin: this.role.isAdmin
       }
 
       this.$store.dispatch('signup', userData)
       .then(
         resolved => {
           console.log('enter resolved')
+          this.clearForm()
           this.userAdded = true
           this.isSubmitted = false
-          this.clearForm()
+          
         },
         reject => {
           this.loginFailed = true
@@ -163,7 +163,16 @@ export default {
     }
   },
   created () {
-    this.roles = this.$store.getters.getRoles
+    this.$store.dispatch('fetchRoles')
+    .then(resolved => {
+      this.roles = resolved
+      this.role = this.roles[0]
+    }, error => {
+      console.error(error)
+    })
+    if (!this.roles) {
+      this.roles = this.$store.getters.getRoles
+    }
 
     let pwd = this.$route.params['pwd']
     let user = this.$store.getters.getUser

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import authStore from './authStore'
 import userStore from './userStore'
 import { USER_ADMIN_ROLE_STRING } from '../constants/global'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -33,6 +34,9 @@ export const store = new Vuex.Store({
     },
     setHtmlToPrint (state, html) {
       state.htmlToPrint = html
+    },
+    setRoles (state, roles) {
+      state.roles = roles
     }
   },
   actions: {
@@ -42,6 +46,18 @@ export const store = new Vuex.Store({
     },
     setHtmlToPrint ({commit}, html) {
       commit('setHtmlToPrint', html)
+    },
+    fetchRoles ({commit}) {
+      return new Promise((resolve, reject) => {
+        axios.get('/roles')
+        .then(res => {
+          commit('setRoles', res.data.roles)
+          resolve(res.data.roles)
+        }, err => {
+          console.error(err)
+          reject(err)
+        })
+      })
     }
   },
   modules: {
