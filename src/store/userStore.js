@@ -31,7 +31,7 @@ const actions = {
 
   fetchUser ({commit}, userId) {
     return new Promise((resolve, reject) => {
-      axios.get(`/user/${userId}`)
+      axios.get(`/api/users/${userId}`)
       .then(res => {
         const user = res.data.user
         console.log('got user: ', user)

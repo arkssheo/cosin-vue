@@ -138,7 +138,6 @@ export default {
           this.clearForm()
           this.userAdded = true
           this.isSubmitted = false
-          
         },
         reject => {
           this.loginFailed = true

@@ -3,8 +3,9 @@ import jwt from 'jsonwebtoken'
 import { User } from '../viewmodels/User'
 
 const state = {
-  localId: null,
-  idToken: null
+  userId: null,
+  username: null,
+  role: null
 }
 const mutations = {
   authUser (state, userData) {
@@ -19,36 +20,38 @@ const mutations = {
 const actions = {
   login (context, authData) {
     return new Promise((resolve, reject) => {
-      axiosAuth.post(`/user/login`, {
+      axiosAuth.post(`/login/`, {
         email: authData.email,
         password: authData.password
       })
       .then(res => {
-        // console.log('post success')
-        const userId = res.data.userId
+        console.log('post success')
+        const userId = res.data.userid
         context.commit('authUser', {
-          localId: userId,
-          idToken: res.data.token
+          userId: res.data.userid,
+          username: res.data.username,
+          role: res.data.role
         })
         // const now = new Date()
         // const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
 
-        localStorage.setItem('localId', userId)
-        localStorage.setItem('idToken', res.data.token)
+        localStorage.setItem('userId', res.data.userid)
+        localStorage.setItem('username', res.data.username)
+        localStorage.setItem('role', res.data.role)
         // localStorage.setItem('expirationDate', expirationDate)
 
         // context.dispatch('setLogoutTimer', res.data.expiresIn)
         context.dispatch('fetchUser', userId)
         .then(res => {
-          // console.log('fetchUser resolved')
+          console.log('fetchUser resolved')
           resolve(res)
         }, err => {
-          // console.log('fetchUser error', err)
+          console.log('fetchUser error', err)
           reject(err)
         })
       })
       .catch(res => {
-        console.log('error!', res)
+        console.log('error!', res.response.data)
         reject(res)
       })
     })
