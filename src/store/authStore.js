@@ -1,9 +1,11 @@
-import axiosAuth from '../http/axios-auth'
-import { API_KEY } from '../constants/global'
+import axiosAuth from 'axios'
+import jwt from 'jsonwebtoken'
+import { User } from '../viewmodels/User'
 
 const state = {
-  localId: null,
-  idToken: null
+  userId: null,
+  username: null,
+  role: null
 }
 const mutations = {
   authUser (state, userData) {
@@ -18,36 +20,38 @@ const mutations = {
 const actions = {
   login (context, authData) {
     return new Promise((resolve, reject) => {
-      axiosAuth.post(`verifyPassword?key=${API_KEY}`, {
+      axiosAuth.post(`/login/`, {
         email: authData.email,
-        password: authData.password,
-        returnSecureToken: true
+        password: authData.password
       })
       .then(res => {
-        // console.log('post success')
+        console.log('post success')
+        const userId = res.data.userid
         context.commit('authUser', {
-          localId: res.data.localId,
-          idToken: res.data.idToken
+          userId: res.data.userid,
+          username: res.data.username,
+          role: res.data.role
         })
-        const now = new Date()
-        const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
+        // const now = new Date()
+        // const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
 
-        localStorage.setItem('localId', res.data.localId)
-        localStorage.setItem('idToken', res.data.idToken)
-        localStorage.setItem('expirationDate', expirationDate)
+        localStorage.setItem('userId', res.data.userid)
+        localStorage.setItem('username', res.data.username)
+        localStorage.setItem('role', res.data.role)
+        // localStorage.setItem('expirationDate', expirationDate)
 
-        context.dispatch('setLogoutTimer', res.data.expiresIn)
-        context.dispatch('fetchUser', { email: authData.email })
+        // context.dispatch('setLogoutTimer', res.data.expiresIn)
+        context.dispatch('fetchUser', userId)
         .then(res => {
-          // console.log('fetchUser resolved')
+          console.log('fetchUser resolved')
           resolve(res)
         }, err => {
-          // console.log('fetchUser error', err)
+          console.log('fetchUser error', err)
           reject(err)
         })
       })
       .catch(res => {
-        console.log(res)
+        console.log('error!', res.response.data)
         reject(res)
       })
     })
@@ -55,27 +59,28 @@ const actions = {
 
   signup ({commit, dispatch}, userData) {
     return new Promise((resolve, reject) => {
-      axiosAuth.post(`/signupNewUser?key=${API_KEY}`, {
-        email: userData.email,
-        password: userData.password,
-        returnSecureToken: true
-      })
+      const user = new User(
+        userData.firstName,
+        userData.lastName,
+        userData.password,
+        userData.email,
+        userData.role,
+        userData.isAdmin
+      )
+      console.log('AuthStore user:', user)
+      axiosAuth.post(`/user`, user)
       .then(res => {
-        // commit('authUser', {
-        //   localId: res.data.localId,
-        //   idToken: res.data.idToken
+        console.log('store successful, login:', user)
+        // dispatch('login', {
+        //   email: user.email,
+        //   password: user.password
         // })
-        // save into local storage
-        // const now = new Date()
-        // const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
-        // localStorage.setItem('localId', res.data.localId)
-        // localStorage.setItem('idToken', res.data.idToken)
-        // localStorage.setItem('expirationDate', expirationDate)
-
-        // userData.id = res.data.localId
-        // dispatch('storeUser', userData)
-        // dispatch('setLogoutTimer', res.data.expiresIn)
-        resolve(res)
+        // .then(res => {
+        //   resolve(res)
+        // }, err => {
+        //   reject(err)
+        // })
+        resolve(user)
       })
       .catch(res => {
         console.error(res)
@@ -102,13 +107,16 @@ const actions = {
       if (!token) {
         return reject(new Error('expired token'))
       }
-      const expirationDate = localStorage.getItem('expirationDate')
-      const now = new Date()
+      var decoded = jwt.verify(token, 'secretkey')
+      // console.log('decoded token: ', decoded)
+      const expirationDate = decoded.exp
+      const now = new Date().getTime() / 1000
+      console.log(now, expirationDate)
       if (now > expirationDate) {
         return reject(new Error('expired token'))
       }
       const userId = localStorage.getItem('localId')
-      dispatch('fetchUser', { localId: userId })
+      dispatch('fetchUser', userId)
       .then(res => {
         // console.log('auto-login successful for user: ', res.email)
         commit('authUser', {

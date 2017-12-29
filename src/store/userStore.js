@@ -29,29 +29,13 @@ const actions = {
     .catch(res => console.error(res))
   },
 
-  fetchUser ({commit}, userData) {
+  fetchUser ({commit}, userId) {
     return new Promise((resolve, reject) => {
-      axios.get('/users.json')
+      axios.get(`/api/users/${userId}`)
       .then(res => {
-        const data = res.data
-        const users = []
-        for (let key in data) {
-          const user = data[key]
-          user.key = key
-          users.push(user)
-        }
-        let user = null
-        if (userData.email) {
-          user = users.filter(user => {
-            return user.email === userData.email
-          })[0]
-        } else if (userData.localId) {
-          user = users.filter(user => {
-            return user.id === userData.localId
-          })[0]
-        }
-
-        if (user) {
+        const user = res.data.user
+        console.log('got user: ', user)
+        if (res) {
           // console.log('user found: ', user)
           commit('setUser', user)
           resolve(user)
