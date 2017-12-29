@@ -11,6 +11,7 @@ Vue.use(vuelidate)
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+axios.defaults.xsrfCookieName = 'XCSRF-TOKEN'
 
 /* eslint-disable no-new */
 new Vue({
