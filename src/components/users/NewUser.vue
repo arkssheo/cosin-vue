@@ -89,7 +89,7 @@ export default {
       email: '',
       password: '',
       passwordConfirm: '',
-      role: 'Usuario',
+      role: null,
       isSubmitted: false,
       userAdded: false,
       loginFailed: false,
@@ -131,7 +131,7 @@ export default {
         isAdmin: this.role.isAdmin
       }
 
-      this.$store.dispatch('signup', userData)
+      this.$store.dispatch('createUser', userData)
       .then(
         resolved => {
           console.log('enter resolved')

@@ -49,10 +49,10 @@ export const store = new Vuex.Store({
     },
     fetchRoles ({commit}) {
       return new Promise((resolve, reject) => {
-        axios.get('/roles')
+        axios.get('api/roles')
         .then(res => {
-          commit('setRoles', res.data.roles)
-          resolve(res.data.roles)
+          commit('setRoles', res.data)
+          resolve(res.data)
         }, err => {
           console.error(err)
           reject(err)
