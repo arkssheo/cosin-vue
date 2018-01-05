@@ -127,7 +127,7 @@ export default {
         lastName: this.lastName,
         email: this.email,
         password: this.password,
-        role: this.role.name,
+        role: this.role.id,
         isAdmin: this.role.isAdmin
       }
 

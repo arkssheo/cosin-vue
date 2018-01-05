@@ -69,11 +69,10 @@ const actions = {
         userData.lastName,
         userData.password,
         userData.email,
-        userData.role,
-        userData.isAdmin
+        userData.role
       )
       console.log('new user to be created:', user)
-      axios.post(`/user`, user)
+      axios.post(`/create_user/`, user)
       .then(res => {
         console.log('create successful')
         // dispatch('login', {
