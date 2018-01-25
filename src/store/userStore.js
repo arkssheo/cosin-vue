@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { User } from '../viewmodels/User'
+import User from '../viewmodels/User'
 
 const state = {
   user: null
@@ -32,7 +32,7 @@ const actions = {
       axios.get(`/user/${userId}`)
       .then(res => {
         console.log('got res: ', res)
-        const user = res.data.user
+        // const user = res.data.user
         if (res) {
           const user = {
             userId: userId,

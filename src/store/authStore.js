@@ -1,12 +1,13 @@
 import axios from 'axios'
+import User from '../viewmodels/User'
 // import jwt from 'jsonwebtoken'
 
 const state = {
   userId: null
 }
 const mutations = {
-  authUser (state, user) {
-    state.userId = user.userId
+  authUser (state, userId) {
+    state.userId = userId
   },
   clearAuth (state) {
     state.userId = null
@@ -15,30 +16,34 @@ const mutations = {
 const actions = {
   login (context, authData) {
     return new Promise((resolve, reject) => {
-      axiosAuth.post(`/auth/`, {
+      axios.post(`/login`, {
         email: authData.email,
         password: authData.password
       })
       .then(res => {
-        console.log('post success')
-        // const user = {
+        console.log('post success:', res)
+        const responseUser = res.data.user
+        const user = new User(responseUser.email)
+        user.isAdmin = responseUser.role.admin
+        user.role = responseUser.role.name
+        //   res.user.email) {
         //   userId: res.data.userid,
         //   username: res.data.username,
         //   role: res.data.role
         // }
-        context.dispatch('fetchUser', authData.email)
-        // context.commit('authUser', user)
+        // context.dispatch('fetchUser', authData.email)
+        context.commit('authUser', user.email)
         // const now = new Date()
         // const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
 
-        // localStorage.setItem('userId', user.userid)
+        localStorage.setItem('userId', user.email)
         // localStorage.setItem('username', user.username)
-        // localStorage.setItem('role', user.role)
+        localStorage.setItem('role', user.role)
         // localStorage.setItem('expirationDate', expirationDate)
 
         // context.dispatch('setLogoutTimer', res.data.expiresIn)
-        // context.dispatch('storeUser', user)
-        resolve(res)
+        context.dispatch('storeUser', user)
+        resolve(user)
       })
       .catch(res => {
         console.log('error!', res.response.data)
@@ -58,7 +63,7 @@ const actions = {
         userData.isAdmin
       )
       console.log('AuthStore user:', user)
-      axiosAuth.post(`/user`, user)
+      axios.post(`/user`, user)
       .then(res => {
         console.log('store successful, login:', user)
         // dispatch('login', {
@@ -82,7 +87,7 @@ const actions = {
 
   logout ({commit, dispatch}) {
     commit('clearAuth')
-    dispatch('clearUser')
+    commit('clearUser')
   },
 
   setLogoutTimer ({dispatch}, duration) {

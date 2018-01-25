@@ -1,11 +1,11 @@
-export class User {
+class User {
   constructor (
-    firstName,
-    lastName,
-    password,
     email,
-    role,
-    isAdmin
+    password = '',
+    role = '',
+    isAdmin = false,
+    firstName = '',
+    lastName = ''
   ) {
     this.firstName = firstName
     this.lastName = lastName
@@ -15,3 +15,5 @@ export class User {
     this.isAdmin = isAdmin
   }
 }
+
+export default User
