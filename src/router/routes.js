@@ -6,6 +6,7 @@ import Admin from '@/components/admin/Admin.vue'
 import Finiquito from '@/components/users/CalcFiniquito.vue'
 import UserFiles from '@/components/users/UserFiles.vue'
 import PrintPreview from '@/components/PrintPreview.vue'
+import FileUpload from '@/components/admin/FileUpload.vue'
 
 import userStore from '../store/userStore'
 import { USER_ADMIN_ROLE_STRING } from '../constants/global'
@@ -13,6 +14,7 @@ import { USER_ADMIN_ROLE_STRING } from '../constants/global'
 export const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },
+  { path: '/files', component: FileUpload },
   { path: '/admin',
     component: Admin,
     beforeEnter (to, from, next) {

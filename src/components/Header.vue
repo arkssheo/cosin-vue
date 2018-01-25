@@ -9,6 +9,7 @@
         <router-link active-class="active" to="/" tag="li" exact><a>Inicio</a></router-link>
         <router-link active-class="active" to="/user" tag="li"><a>Panel Usuario</a></router-link>
         <router-link active-class="active" to="/admin" tag="li"><a>Panel Admin</a></router-link>
+        <router-link active-class="active" to="/files" tag="li"><a>Files</a></router-link>
       </ul>
       <ul class="nav navbar-nav navbar-right" v-if="currentUser">
         <p class="navbar-text">{{ currentUser.email }}</p>
