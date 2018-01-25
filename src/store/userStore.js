@@ -22,19 +22,15 @@ const mutations = {
 const actions = {
 
   storeUser ({commit}, userData) {
-    axios.post('/users.json', userData)
-    .then(res => {
-      return res
-    })
-    .catch(res => console.error(res))
+    commit('setUser', userData)
   },
 
   fetchUser ({commit}, userId) {
     return new Promise((resolve, reject) => {
-      axios.get(`/api/users/${userId}`)
+      axios.get(`/user/${userId}`)
       .then(res => {
+        console.log('got res: ', res)
         const user = res.data.user
-        console.log('got user: ', user)
         if (res) {
           // console.log('user found: ', user)
           commit('setUser', user)

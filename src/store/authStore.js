@@ -20,35 +20,30 @@ const mutations = {
 const actions = {
   login (context, authData) {
     return new Promise((resolve, reject) => {
-      axiosAuth.post(`/login/`, {
+      axiosAuth.post(`/auth/`, {
         email: authData.email,
         password: authData.password
       })
       .then(res => {
         console.log('post success')
-        const userId = res.data.userid
-        context.commit('authUser', {
-          userId: res.data.userid,
-          username: res.data.username,
-          role: res.data.role
-        })
+        // const user = {
+        //   userId: res.data.userid,
+        //   username: res.data.username,
+        //   role: res.data.role
+        // }
+        context.dispatch('fetchUser', authData.email)
+        // context.commit('authUser', user)
         // const now = new Date()
         // const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
 
-        localStorage.setItem('userId', res.data.userid)
-        localStorage.setItem('username', res.data.username)
-        localStorage.setItem('role', res.data.role)
+        // localStorage.setItem('userId', user.userid)
+        // localStorage.setItem('username', user.username)
+        // localStorage.setItem('role', user.role)
         // localStorage.setItem('expirationDate', expirationDate)
 
         // context.dispatch('setLogoutTimer', res.data.expiresIn)
-        context.dispatch('fetchUser', userId)
-        .then(res => {
-          console.log('fetchUser resolved')
-          resolve(res)
-        }, err => {
-          console.log('fetchUser error', err)
-          reject(err)
-        })
+        // context.dispatch('storeUser', user)
+        resolve(res)
       })
       .catch(res => {
         console.log('error!', res.response.data)
