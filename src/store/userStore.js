@@ -1,5 +1,6 @@
 import axios from 'axios'
 import User from '../viewmodels/User'
+import Role from '../viewmodels/Role'
 
 const state = {
   user: null
@@ -32,14 +33,13 @@ const actions = {
       axios.get(`/user/${userId}`)
       .then(res => {
         console.log('got res: ', res)
-        // const user = res.data.user
         if (res) {
-          const user = {
-            userId: userId,
-            email: res.data.email,
-            role: res.data.role
-          }
+          const user = new User(res.data.email)
+          const role = new Role(res.data.role.name, res.data.role.admin)
+          user.role = role
+
           console.log('user found: ', user)
+
           commit('setUser', user)
           resolve(user)
         } else {

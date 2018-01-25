@@ -1,5 +1,6 @@
 import axios from 'axios'
 import User from '../viewmodels/User'
+import Role from '../viewmodels/Role'
 // import jwt from 'jsonwebtoken'
 
 const state = {
@@ -21,25 +22,16 @@ const actions = {
         password: authData.password
       })
       .then(res => {
-        console.log('post success:', res)
-        const responseUser = res.data.user
-        const user = new User(responseUser.email)
-        user.isAdmin = responseUser.role.admin
-        user.role = responseUser.role.name
-        //   res.user.email) {
-        //   userId: res.data.userid,
-        //   username: res.data.username,
-        //   role: res.data.role
-        // }
-        // context.dispatch('fetchUser', authData.email)
+        console.log('login success:', res)
+
+        const user = new User(res.data.user.email)
+        const role = new Role(res.data.user.role.name, res.data.user.role.admin)
+        user.role = role
+
         context.commit('authUser', user.email)
-        // const now = new Date()
-        // const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
 
         localStorage.setItem('userId', user.email)
-        // localStorage.setItem('username', user.username)
-        localStorage.setItem('role', user.role)
-        // localStorage.setItem('expirationDate', expirationDate)
+        localStorage.setItem('role', role)
 
         // context.dispatch('setLogoutTimer', res.data.expiresIn)
         context.dispatch('storeUser', user)

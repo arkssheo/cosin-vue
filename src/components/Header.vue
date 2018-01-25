@@ -32,7 +32,7 @@
       <p class="text-right close-dialog">&times;</p>
       <img src="../assets/anon-user.png" class="img-avatar-profile" alt="image-avatar">  
       <p>{{currentUser.email}}</p>
-      <p>{{currentUser.role}}</p>
+      <p>{{currentUser.role.name}}</p>
       <p><a @click="goToDashboard()" class="btn btn-success">Mi Panel</a></p>
       <p><a @click="onLogout()" class="btn btn-danger">Cerrar Sesión</a></p>
     </div>

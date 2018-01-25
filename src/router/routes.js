@@ -9,7 +9,6 @@ import PrintPreview from '@/components/PrintPreview.vue'
 import FileUpload from '@/components/admin/FileUpload.vue'
 
 import userStore from '../store/userStore'
-import { USER_ADMIN_ROLE_STRING } from '../constants/global'
 
 export const routes = [
   { path: '/', component: Home },
@@ -18,7 +17,7 @@ export const routes = [
   { path: '/admin',
     component: Admin,
     beforeEnter (to, from, next) {
-      if (userStore.state.user && userStore.state.user.role === USER_ADMIN_ROLE_STRING) {
+      if (userStore.state.user && userStore.state.user.role.isAdmin) {
         next()
       } else if (!userStore.state.user) {
         next('/login')
@@ -28,7 +27,7 @@ export const routes = [
   { path: '/admin/newuser',
     component: NewUser,
     beforeEnter (to, from, next) {
-      if (userStore.state.user && userStore.state.user.role === USER_ADMIN_ROLE_STRING) {
+      if (userStore.state.user && userStore.state.user.role.isAdmin) {
         next()
       } else if (!userStore.state.user) {
         next('/login')
