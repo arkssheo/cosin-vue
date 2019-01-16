@@ -2,7 +2,10 @@
   <div id="app">
     <app-header></app-header>
     <img class="bgimage" src="./assets/account.png" alt="bgimage">
-    <router-view class="router-view" />
+    <section class="content router-view">
+      <router-view/>
+    </section>
+    
     <app-footer></app-footer>
   </div>
 </template>
@@ -43,11 +46,13 @@ export default {
 }
 
 img.bgimage {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
-  width: 100%;
-  height: auto;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
   opacity: 0.2;
   z-index: -999;
 }
@@ -61,8 +66,9 @@ body {
 }
 
 .router-view {
-  position: absolute;
-  top: 6rem;
+  margin-top: 60px;
+  height: 100%;
   width: 100%;
+  margin-bottom: 25px;
 }
 </style>

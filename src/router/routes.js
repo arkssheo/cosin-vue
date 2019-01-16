@@ -7,6 +7,7 @@ import Finiquito from '@/components/users/CalcFiniquito.vue'
 import UserFiles from '@/components/users/UserFiles.vue'
 import PrintPreview from '@/components/PrintPreview.vue'
 import FileUpload from '@/components/admin/FileUpload.vue'
+import UserManagement from '@/components/users/UserManagement.vue'
 
 import userStore from '../store/userStore'
 
@@ -14,6 +15,7 @@ export const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },
   { path: '/files', component: FileUpload },
+  { path: '/user_mgmt', component: UserManagement },
   { path: '/admin',
     component: Admin,
     beforeEnter (to, from, next) {

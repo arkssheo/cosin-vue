@@ -9,7 +9,9 @@ import vuelidate from 'vuelidate'
 
 Vue.use(vuelidate)
 Vue.config.productionTip = false
-axios.defaults.baseURL = 'http://localhost:5000'
+
+// axios.defaults.baseURL = 'http://localhost:5000/api'
+axios.defaults.baseURL = 'https://cosin-webservices.herokuapp.com/api'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 // axios.defaults.xsrfCookieName = 'XCSRF-TOKEN'
 axios.defaults.withCredentials = true

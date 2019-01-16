@@ -17,6 +17,7 @@ const mutations = {
 const actions = {
   login (context, authData) {
     return new Promise((resolve, reject) => {
+      console.log('login', axios.defaults.baseURL)
       axios.post(`/login`, {
         email: authData.email,
         password: authData.password
@@ -25,7 +26,7 @@ const actions = {
         console.log('login success:', res)
 
         const user = new User(res.data.user.email)
-        const role = new Role(res.data.user.role.name, res.data.user.role.admin)
+        const role = new Role(res.data.user.role.name, res.data.user.role.is_admin)
         user.role = role
 
         context.commit('authUser', user.email)

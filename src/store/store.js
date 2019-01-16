@@ -19,6 +19,7 @@ export const store = new Vuex.Store({
   },
   getters: {
     getRoles (state) {
+      console.log('get roles returning:', state.roles)
       return state.roles
     },
     isProfileDialogVisible (state) {
@@ -49,7 +50,7 @@ export const store = new Vuex.Store({
     },
     fetchRoles ({commit}) {
       return new Promise((resolve, reject) => {
-        axios.get('api/roles')
+        axios.get('/roles')
         .then(res => {
           commit('setRoles', res.data)
           resolve(res.data)

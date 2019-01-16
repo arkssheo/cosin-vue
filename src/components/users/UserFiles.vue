@@ -28,6 +28,9 @@
         </tr>
       </tbody>
     </table>
+    <div class="col-md-12" style="margin-bottom: 26px;">
+      <button class="btn btn-info" @click="goBack()">Regresar</button>
+    </div>
   </div>
 </template>
 
@@ -40,6 +43,11 @@ export default {
         { id: 12348, fileName: 'Utilidades_2016.pdf', uploadedDate: 'Dic 25, 2016' },
         { id: 15345, fileName: 'Finiquito_Maria.pdf', uploadedDate: 'Ene 2, 2014' }
       ]
+    }
+  },
+  methods: {
+    goBack () {
+      this.$router.push('/user')
     }
   }
 }

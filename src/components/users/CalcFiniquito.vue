@@ -96,7 +96,9 @@
       </div>
       
     </div>
-    
+    <div class="col-md-12" style="margin-bottom: 26px;">
+      <button class="btn btn-info" @click="goBack()">Regresar</button>
+    </div>
   </div>
 </template>
 
@@ -181,6 +183,9 @@ export default {
       this.$store.dispatch('setHtmlToPrint', table)
       console.log(table)
       this.$router.push('/finiquito/printpreview')
+    },
+    goBack () {
+      this.$router.push('/user')
     }
   },
   computed: {

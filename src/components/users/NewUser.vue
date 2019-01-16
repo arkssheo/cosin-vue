@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <div class="col-md-8 col-md-offset-4 back-btn">
+    <!-- <div class="col-md-8 col-md-offset-4 back-btn">
       <router-link class="btn btn-link" tag="a" to="/admin"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back</router-link>
-    </div>
-    <div class="col-md-8 col-md-offset-4 well">
+    </div> -->
+    <div class="col-md-8 well" style="margin-left: auto; margin-right: auto; width: 100%; margin-top: 24px;">
       <h2 class="text-center">Nuevo Usuario</h2>
       <br>
       <div class="alert alert-danger" role="alert" v-if="loginFailed">
@@ -55,17 +55,19 @@
         </div>
         <div class="form-group">
           <select name="roles" id="select" class="form-control" v-model="role">
-            <option v-for="role in roles" :key="role.id" :value="role">{{ role.name }}</option>
+            <option :value="null" disabled selected>Selecciona un rol...</option>
+            <option v-for="role in roles" :key="role._id" :value="role">{{ role.name }}</option>
           </select>
         </div>
         <div class="form-group text-right">
+          <button class="btn btn-info" type="button" style="float: left" @click="goBack()">Cancelar</button>
           <img class="loading" src="../../assets/loading.gif" alt="loading_gif" v-if="isSubmitted">
           <button class="btn btn-warning" type="button" @click="clearForm()">
             Limpiar
           </button>
           <button 
             class="btn btn-info"
-            :disabled="($v.email.$invalid || $v.password.$invalid) || isSubmitted"
+            :disabled="($v.email.$invalid || $v.password.$invalid || $v.role.$invalid) || isSubmitted"
             type="submit"
             @click.prevent="onSubmit()">
             Agregar Usuario
@@ -101,6 +103,9 @@ export default {
       required,
       email
     },
+    role: {
+      required
+    },
     password: {
       required,
       minLength: minLength(6)
@@ -127,7 +132,7 @@ export default {
         lastName: this.lastName,
         email: this.email,
         password: this.password,
-        role: this.role.id,
+        role_id: this.role._id,
         isAdmin: this.role.isAdmin
       }
 
@@ -159,15 +164,19 @@ export default {
       this.password = ''
       this.passwordConfirm = ''
       this.$v.$reset()
+    },
+    goBack () {
+      this.$router.push('/user')
     }
   },
   created () {
     this.$store.dispatch('fetchRoles')
-    .then(resolved => {
-      this.roles = resolved
+    .then(({ roles }) => {
+      this.roles = roles
       this.role = this.roles[0]
+      console.log('resolved with roles:', roles, this.role)
     }, error => {
-      console.error(error)
+      console.error('error resolving the roles:', error)
     })
     if (!this.roles) {
       this.roles = this.$store.getters.getRoles

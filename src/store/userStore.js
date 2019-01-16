@@ -35,7 +35,7 @@ const actions = {
         console.log('got res: ', res)
         if (res) {
           const user = new User(res.data.email)
-          const role = new Role(res.data.role.name, res.data.role.admin)
+          const role = new Role(res.data.role.name, res.data.role.is_admin)
           user.role = role
 
           console.log('user found: ', user)
@@ -56,14 +56,15 @@ const actions = {
   createUser ({commit}, userData) {
     return new Promise((resolve, reject) => {
       const user = new User(
-        userData.firstName,
-        userData.lastName,
-        userData.password,
         userData.email,
-        userData.role
+        userData.password,
+        userData.role_id,
+        undefined,
+        userData.firstName,
+        userData.lastName
       )
       console.log('new user to be created:', user)
-      axios.post(`/create_user/`, user)
+      axios.post(`/create_user`, user)
       .then(res => {
         console.log('create successful')
         // dispatch('login', {

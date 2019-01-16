@@ -4,6 +4,7 @@ class User {
   constructor (
     email,
     password = '',
+    roleId = -1,
     role = new Role(),
     firstName = '',
     lastName = ''
@@ -13,6 +14,7 @@ class User {
     this.password = password
     this.email = email
     this.role = role
+    this.roleId = roleId
   }
 }
 
